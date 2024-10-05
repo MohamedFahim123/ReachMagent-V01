@@ -19,6 +19,7 @@ body {
 *:before,
 *:after {
     box-sizing: border-box;
+    scroll-behavior: smooth;
 }
 
 a {
@@ -31,6 +32,16 @@ img {
 
 li {
     list-style: none;
+}
+
+.form-control:hover ,
+.form-control:focus ,
+.form-control:focus-visible ,
+.form-select:hover ,
+.form-select:focus ,
+.form-select:focus-visible {
+    outline: none;
+    box-shadow: none;
 }
 
 :root {
@@ -51,3 +62,19 @@ li {
 .inputError {
     border-color: #ff2020 !important;
 }
+.replace__margin__with__padding .signUp__headSec{
+    margin: 0;
+    padding: 50px 0;
+}
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+input[type=number] {
+    -moz-appearance: textfield;
+}
+
+
+
+  

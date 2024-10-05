@@ -1,66 +1,75 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import './trendingCompanySec.css'
-import cover1 from '../../assets/companyCards/cover 1.png'
-import cover2 from '../../assets/companyCards/cover 2.png'
-import cover3 from '../../assets/companyCards/cover 3.png'
-import profile from '../../assets/companyCards/profile.png'
 import CopmanyCard from '../companyCardSec/CopmanyCard'
 import HeaderOfSec from '../myHeaderOfSec/HeaderOfSec'
-export default function TrendingCompanySec() {
-    const companyCardsItems = [
-        {
-            cardCover: cover1,
-            cardProfile: profile,
-            cardName: 'company name',
-            cardUser: '@email.com',
-            productsCount: 112,
-            dealsCount: 261,
-            ownerCount: 2,
-            cardDesc: 'Lorem ipsum Dolor Sit Amet Consecteture Adipsciing Elit Tristique Hac Lectus Facillsi Convallis'
-        },
-        {
-            cardCover: cover2,
-            cardProfile: profile,
-            cardName: 'company name',
-            cardUser: '@email.com',
-            productsCount: 112,
-            dealsCount: 261,
-            ownerCount: 2,
-            cardDesc: 'Lorem ipsum Dolor Sit Amet Consecteture Adipsciing Elit Tristique Hac Lectus Facillsi Convallis'
-        },
-        {
-            cardCover: cover3,
-            cardProfile: profile,
-            cardName: 'company name',
-            cardUser: '@email.com',
-            productsCount: 112,
-            dealsCount: 261,
-            ownerCount: 2,
-            cardDesc: 'Lorem ipsum Dolor Sit Amet Consecteture Adipsciing Elit Tristique Hac Lectus Facillsi Convallis'
-        },
-    ]
+import Cookies from 'js-cookie'
+import { NavLink } from 'react-router-dom'
+import { scrollToTop } from '../../functions/scrollToTop'
+export default function TrendingCompanySec({ companies, token }) {
+    const [currentFollowedCompanies, setCurrentFollowedCompanies] = useState(() => {
+        const cookieValue = Cookies.get('CurrentFollowedCompanies');
+        return cookieValue ? JSON.parse(cookieValue) : [];
+    });
+
+    useEffect(() => {
+        if (!Cookies.get('CurrentFollowedCompanies') && companies) {
+            const firstCompany = companies[0] ? companies[0] : ''
+            if (firstCompany?.followed !== undefined) {
+                const filteredCompanies = companies?.filter(company => company?.followed === true);
+                setCurrentFollowedCompanies([...currentFollowedCompanies, ...filteredCompanies]);
+            };
+        };
+    }, [companies]);
+    console.log(companies)
 
     return (
         <div className='trendingCompany__handler'>
             <div className="container">
                 <HeaderOfSec
                     secHead='Trending Companies'
-                    secText='Lorem ipsum dolor sit amet consectetur. Lectus fermentum amet id luctus at libero.' />
+                    secText='Explore a wide array of trending companies making headlines in the industry' />
 
                 <div className="trendingCompany__cards mb-5">
                     <div className="row">
                         {
-                            companyCardsItems.map((el, index) => {
+                            companies?.map((el) => {
                                 return (
-                                    <div key={index} className="col-lg-4 col-md-6 col-sm-12 mb-2 d-flex justify-content-center">
-                                        <CopmanyCard coverImg={el.cardCover} companyProfile={el.cardProfile} companyName={el.cardName} companyUser={el.cardUser} productsCount={el.productsCount} dealsCount={el.dealsCount} ownerCount={el.ownerCount} cardDesc={el.cardDesc}/>
+                                    <div key={el?.companyId} className="col-lg-4 col-md-6 col-sm-12 mb-2 d-flex justify-content-center">
+                                        <CopmanyCard
+                                            // ************* dynamic info
+                                            currentFollowedCompanies={currentFollowedCompanies}
+                                            setCurrentFollowedCompanies={setCurrentFollowedCompanies}
+                                            token={token}
+                                            companyProfile={el.companyLogo}
+                                            companyName={el.companyName}
+                                            companyUser={el.companyEmail}
+                                            companyId={el.companyId}
+                                            // ************* static info
+                                            // 356 × 58 px
+                                            coverImg={el?.companyCover}
+                                            productsCount={'0'}
+                                            dealsCount={'0'}
+                                            ownerCount={'0'}
+                                            cardDesc={el?.companyAboutUs}
+                                        />
                                     </div>
                                 )
                             })
                         }
 
                     </div>
+                    <div className="showAllBtn d-flex justify-content-end align-items-center">
+                        <NavLink className={'nav-link'} to={'/all-companies'}
+                        onClick={() => {
+                            scrollToTop();
+                        }}
+                        >
+                            All Companies 
+                            <i className="bi bi-arrow-bar-right"></i>
+                        </NavLink>
+                    </div>
                 </div>
+
             </div>
         </div>
     )

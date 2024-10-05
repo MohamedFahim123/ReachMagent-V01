@@ -1,11 +1,13 @@
 import React from 'react';
 import './franchiseSec.css';
+import { NavLink } from 'react-router-dom';
+import { scrollToTop } from '../../functions/scrollToTop';
 
-export default function FranchiseSec({pageName,headText,paraText,btnOneText,btnTwoText}) {
+export default function FranchiseSec({ pageName, headText, paraText, btnOneText, btnTwoText, btnOnelink }) {
     return (
         <div className={`franchiseSec__handler`}>
             <div className="container">
-                <div className={`${pageName === 'home' ? 'franchiseSec__content' : 'franchiseSec__content franchiseSec__content-two overlay20' } text-center`}>
+                <div className={`${pageName === 'home' ? 'franchiseSec__content' : 'franchiseSec__content franchiseSec__content-two overlay20'} text-center`}>
                     <h3>
                         {headText ? headText : ''}
                     </h3>
@@ -15,19 +17,25 @@ export default function FranchiseSec({pageName,headText,paraText,btnOneText,btnT
                     <div className="franchise__actions">
                         {
                             btnOneText ?
-                            <button>
-                                {btnOneText}
-                            </button>
-                            :
-                            ''
+                                <NavLink  
+                                onClick={() => {
+                                    scrollToTop();
+                                }} 
+                                to={btnOnelink} className='nav-link'>
+                                    <button>
+                                        {btnOneText}
+                                    </button>
+                                </NavLink>
+                                :
+                                ''
                         }
                         {
                             btnTwoText ?
-                            <button>
-                                {btnTwoText}
-                            </button>
-                            :
-                            ''
+                                <button>
+                                    {btnTwoText}
+                                </button>
+                                :
+                                ''
                         }
                     </div>
                 </div>

@@ -2,11 +2,32 @@
     background: var(--primary-white);
     padding: 10px;
     border-radius: 20px;
+    width: 422px;
+    position: relative;
 }
 .productCard__item .product__image img{
-    /* width: 396.48px; */
     height: 191px;
     border-radius: 8px;
+    cursor: pointer;
+}
+.productCard__item .product__image .card__wishlist{
+    position: absolute;
+    left: 20px;
+    top: 20px;
+    z-index: 20;
+}
+.productCard__item .product__image .card__wishlist i{
+    color: #fff;
+    background: #0000004d;
+    border-radius: 8px;
+    display: inline-block;
+    font-size: 14px;
+    padding: 5px 15px;
+    cursor: pointer;
+    transition: all ease-in-out .3s;
+}
+.productCard__item .product__image .card__wishlist i:hover{
+    color: rgba(213, 0, 18, 1);
 }
 .product__info{
     display: flex;
@@ -19,6 +40,15 @@
     font-weight: 500;
     color: var(--primary-black);
     margin-bottom: 20px;
+    transition: all 0.3s ease-in-out;
+    -webkit-transition: all 0.3s ease-in-out;
+    -moz-transition: all 0.3s ease-in-out;
+    -ms-transition: all 0.3s ease-in-out;
+    -o-transition: all 0.3s ease-in-out;
+    cursor: pointer;
+}
+.product__info .main__info  h3:hover {
+    color: var(--main-turquoise);
 }
 .product__info .main__info h5{
     font-size: 18px;
@@ -44,12 +74,21 @@
 }
 .pageMainBtnStyle{
     background: transparent;
+    font-size: 14px;
     border: 1px solid var(--main-turquoise);
     color: var(--main-turquoise);
     border-radius: 8px;
     padding: 5px 10px;
     text-transform: capitalize;
     transition: ease-in-out .3s;
+    -webkit-border-radius: 8px;
+    -moz-border-radius: 8px;
+    -ms-border-radius: 8px;
+    -o-border-radius: 8px;
+    -webkit-transition: ease-in-out .3s;
+    -moz-transition: ease-in-out .3s;
+    -ms-transition: ease-in-out .3s;
+    -o-transition: ease-in-out .3s;
 }
 .pageMainBtnStyle:hover{
     background: var(--main-turquoise);
@@ -91,4 +130,10 @@
     .productCard__item .product__image img{
         height: 130px;
     }
+}
+.productCard__delPrice .productDetails__deletedPrice {
+    font-size: 15px !important;
+}
+.productCard__price {
+    color: var(--main-blue-color) !important;
 }

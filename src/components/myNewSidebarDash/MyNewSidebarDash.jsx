@@ -11,11 +11,14 @@ import icon7 from '../../assets/sidebar-icons/notification.svg';
 import icon8 from '../../assets/sidebar-icons/call-add.svg';
 import icon9 from '../../assets/sidebar-icons/discount-shape 1.svg';
 import icon10 from '../../assets/sidebar-icons/message-question 1.svg';
+import icon11 from '../../assets/sidebar-icons/people.svg';
+import currencyIcon from '../../assets/icons/cash-stack.svg'
 
-export default function MyNewSidebarDash() {
+export default function MyNewSidebarDash({ token }) {
     const location = useLocation();
     const [show, setShow] = useState(false);
     const [isMobile, setIsMobile] = useState(window.innerWidth <= 1024);
+    const [showSettingsSubmenu, setShowSettingsSubmenu] = useState(false);
     const activePath = location.pathname;
     const navigate = useNavigate();
 
@@ -39,23 +42,74 @@ export default function MyNewSidebarDash() {
 
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
+    const toggleSettingsSubmenu = () => {
+        setShowSettingsSubmenu(!showSettingsSubmenu);
 
-    const sidebarItems = [
-        { title: "Profile", link: "/profile", icon: icon1 },
-        { title: "Catalog", link: "/profile/catalog", icon: icon2 },
+    }
+    const loginType = localStorage.getItem('loginType')
+
+    let sidebarItems = [
+        // { title: "Profile", link: "/profile", icon: icon1 },
+        { title: "Followers", link: "/profile/followers", icon: icon11 },
+        { title: "Product Catalog", link: "/profile/catalog", icon: icon2 },
+        { title: "Services", link: "/profile/service", icon: icon2 },
+        // { title: "E-commerce Items", link: "/profile/products", icon: icon4 },
+        { title: "FAQS", link: "/profile/faqs", icon: icon5 },
+        { title: "Posts", link: "/profile/posts", icon: icon5 },
+        // { title: "Shipping Costs", link: "/profile/shipping-costs", icon: currencyIcon },
         { title: "Quotations", link: "/profile/quotations", icon: icon3 },
-        { title: "Products", link: "/profile/products", icon: icon4 },
-        { title: "Orders", link: "/profile/orders", icon: icon4 },
-        { title: "Insights", link: "/profile/insights", icon: icon5 },
-        { title: "Messages", link: "/profile/messages", icon: icon6 },
+        { title: "One-Click Quotations", link: "/profile/oneclick-quotations", icon: icon3 },
+        { title: "Quotation Orders", link: "/profile/quotation-orders", icon: icon4 },
+        // { title: "Insights", link: "/profile/insights", icon: icon5 },
+        { title: "Messages", link: "/your-messages", icon: icon6 },
         { title: "Notifications", link: "/profile/notifications", icon: icon7 },
-        { title: "Requests", link: "/profile/requests", icon: icon8 }
+        {
+            title: "Settings",
+            link: "/profile/profile-settings",
+            icon: icon9,
+            // submenu: [
+            //     { title: "Profile Settings", link: "/profile/profile-settings" },
+            //     { title: "Business Settings", link: "/profile/business-settings" },
+            //     { title: "Employees Management", link: "/profile/users-management" }
+            // ]
+        }
     ];
-
-    const sidebarItemsTwo = [
-        { title: "Promote", link: "/profile/promote", icon: icon9 },
-        { title: "Help", link: "/profile/help", icon: icon10 }
+    if (loginType === 'user') {
+        sidebarItems = [
+            // { title: "Profile", link: "/profile", icon: icon1 },
+            { title: "following", link: "/profile/followers", icon: icon11 },
+            // { title: "Catalog", link: "/profile/catalog", icon: icon2 },
+            // { title: "Services", link: "/profile/service", icon: icon2 },
+            { title: "Quotations", link: "/profile/quotations", icon: icon3 },
+            { title: "One-Click Quotations", link: "/profile/oneclick-quotations", icon: icon3 },
+            // { title: "Products", link: "/profile/products", icon: icon4 },
+            { title: "Quotation Orders", link: "/profile/quotation-orders", icon: icon4 },
+            // { title: "Insights", link: "/profile/insights", icon: icon5 },
+            { title: "Messages", link: "/your-messages", icon: icon6 },
+            { title: "Notifications", link: "/profile/notifications", icon: icon7 },
+            // { title: "Requests", link: "/profile/requests", icon: icon8 },
+            {
+                title: "Settings",
+                link: "/profile/profile-settings",
+                icon: icon9,
+            }
+        ];
+    }
+    // const sidebarItemsTwo = [
+    //     { title: "Promote", link: "/business-profile/promote", icon: icon9 },
+    //     { title: "Help", link: "/business-profile/help", icon: icon10 }
+    // ];
+    const userSubmenu = (localStorage.getItem('loginType') === 'user') ? [
+        { title: "Profile Settings", link: "/profile/profile-settings" }
+    ] : [
+        { title: "Profile Settings", link: "/profile/profile-settings" },
+        { title: "Business Settings", link: "/profile/business-settings" },
+        { title: "Employees Management", link: "/profile/users-management" }
     ];
+    const settingsIndex = sidebarItems.findIndex(item => item.title === "Settings");
+    if (settingsIndex !== -1) {
+        sidebarItems[settingsIndex].submenu = userSubmenu;
+    };
 
     const renderSidebarContent = () => (
         <>
@@ -64,19 +118,42 @@ export default function MyNewSidebarDash() {
                     <li
                         key={index}
                         className={`d-flex justify-content-between align-items-center 
-                    ${el.link.endsWith(handleGettingLastRouteInPathName()) ? 'active' : ''} 
-                    ${activePath === el.link ? 'active' : ''}`}
-                        onClick={() => handleNavigationToSingleProfilePage(el.link)}
+                            ${el.link.endsWith(handleGettingLastRouteInPathName()) ? 'active' : ''} 
+                            ${activePath?.includes(el.link) && !showSettingsSubmenu ? 'active' : ''}
+                            ${el.submenu && showSettingsSubmenu ? 'active' : ''}`}
+                        onClick={() => {
+                            if (el.submenu) {
+                                toggleSettingsSubmenu();
+                                // if (!show && isMobile) {
+                                //     handleShow();
+                                // }
+                            } else {
+                                handleNavigationToSingleProfilePage(el.link);
+                            }
+                        }}
                     >
                         <Link onClick={isMobile ? handleClose : undefined}>
                             <img src={el.icon} alt={el.title} />
                             <span>{el.title}</span>
                         </Link>
-                        <i className="bi bi-chevron-right"></i>
+                        {el.submenu ? <i className={`bi ${showSettingsSubmenu ? 'bi-chevron-down' : 'bi-chevron-right'}`}></i> : <i className="bi bi-chevron-right"></i>}
+                    </li>
+                ))}
+                {showSettingsSubmenu && sidebarItems.find(el => el.title === "Settings").submenu.map((subEl, subIndex) => (
+                    <li
+                        key={subIndex}
+                        className={`d-flex justify-content-between align-items-center submenu 
+                            ${activePath === subEl.link ? 'active' : ''}`}
+                        onClick={() => handleNavigationToSingleProfilePage(subEl.link)}
+                        style={{ paddingLeft: '15px' }}
+                    >
+                        <Link to={subEl.link} onClick={isMobile ? handleClose : undefined}>
+                            <span>{subEl.title}</span>
+                        </Link>
                     </li>
                 ))}
             </ul>
-            <ul className='listItems__two'>
+            {/* <ul className='listItems__two'>
                 {sidebarItemsTwo.map((el, index) => (
                     <li
                         key={index}
@@ -89,7 +166,7 @@ export default function MyNewSidebarDash() {
                         <i className="bi bi-chevron-right"></i>
                     </li>
                 ))}
-            </ul>
+            </ul> */}
             <div className="pro__banner__handler text-center">
                 <div className="pro__banner__content">
                     <h3>Upgrade to PRO to get access to all Features!</h3>
@@ -118,7 +195,7 @@ export default function MyNewSidebarDash() {
                                     </li>
                                 ))}
                             </ul>
-                            <ul className='listItems__two'>
+                            {/* <ul className='listItems__two'>
                                 {sidebarItemsTwo.map((el, index) => (
                                     <li key={index} className={`d-flex justify-content-center align-items-center ${activePath === el.link ? 'active' : ''}`}>
                                         <Link to={el.link} onClick={isMobile ? handleClose : undefined}>
@@ -126,7 +203,7 @@ export default function MyNewSidebarDash() {
                                         </Link>
                                     </li>
                                 ))}
-                            </ul>
+                            </ul> */}
                         </div>
 
                     </div>
@@ -134,8 +211,10 @@ export default function MyNewSidebarDash() {
                     <Offcanvas show={show} onHide={handleClose} className="mySidebar__handler">
                         <Offcanvas.Header closeButton>
                             <Offcanvas.Title>
-                                <h1 className="logo__text">
-                                    ReachMag<span className='letter__color'>n</span>et
+                                <h1 className="logo__text cursorPointer">
+                                   <NavLink className={'nav-link'} to={'/'}>
+                                   ReachMag<span className='letter__color'>n</span>et
+                                   </NavLink>
                                 </h1>
                             </Offcanvas.Title>
                         </Offcanvas.Header>
@@ -147,9 +226,11 @@ export default function MyNewSidebarDash() {
             ) : (
                 <div className="mySidebar__handler">
                     <div className="container">
-                        <h1 className="logo__text">
-                        ReachMag<span className='letter__color'>n</span>et
-                        </h1>
+                                <h1 className="logo__text cursorPointer">
+                                   <NavLink className={'nav-link'} to={'/'}>
+                                   ReachMag<span className='letter__color'>n</span>et
+                                   </NavLink>
+                                </h1>
                         {renderSidebarContent()}
                     </div>
                 </div>

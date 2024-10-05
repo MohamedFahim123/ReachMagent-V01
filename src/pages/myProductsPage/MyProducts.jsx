@@ -1,118 +1,199 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import ContentViewHeader from '../../components/contentViewHeaderSec/ContentViewHeader'
-import { NavLink } from 'react-router-dom'
+import { NavLink, useNavigate } from 'react-router-dom'
 import { Table } from 'react-bootstrap';
-import chairImg from '../../assets/productsImages/chair.png'
 import './myProducts.css'
 import MainContentHeader from '../../components/mainContentHeaderSec/MainContentHeader';
 import MyNewSidebarDash from '../../components/myNewSidebarDash/MyNewSidebarDash';
-export default function MyProducts() {
-  const productsData = [
-    {
-      prodImage: chairImg,
-      title: 'Blue Chair',
-      disc: 'Made of wood and steel',
-      createdIn: '05 May 2024',
-      status: 'in stock',
-      style: 'in-stock',
-      amount: '$250'
+import toast from 'react-hot-toast';
+import axios from 'axios';
+import { baseURL } from '../../functions/baseUrl';
+import MyLoader from '../../components/myLoaderSec/MyLoader';
+import Cookies from 'js-cookie';
+import UnAuthSec from '../../components/unAuthSection/UnAuthSec';
+import AddNewItem from '../../components/addNewItemBtn/AddNewItem';
 
-    },
-    {
-      prodImage: chairImg,
-      title: 'Blue Chair',
-      disc: 'Made of wood and steel',
-      createdIn: '05 May 2024',
-      status: 'out of stock',
-      style: 'out-stock',
-      amount: '$250'
-    },
-    {
-      prodImage: chairImg,
-      title: 'Blue Chair',
-      disc: 'Made of wood and steel',
-      createdIn: '05 May 2024',
-      status: 'in stock',
-      style: 'in-stock',
-      amount: '$250'
-    },
-    {
-      prodImage: chairImg,
-      title: 'Blue Chair',
-      disc: 'Made of wood and steel',
-      createdIn: '05 May 2024',
-      status: 'in stock',
-      style: 'in-stock',
-      amount: '$250'
-    },
-  ];
+export default function MyProducts({ token }) {
+  const [loading, setLoading] = useState(true);
+  const loginType = localStorage.getItem('loginType');
+  const [newData, setNewdata] = useState([]);
+  const [currentUserLogin, setCurrentUserLogin] = useState(null);
+  const [unAuth, setUnAuth] = useState(false);
+  const navigate = useNavigate();
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
+
+  useEffect(() => {
+    const cookiesData = Cookies.get('currentLoginedData');
+    if (!currentUserLogin) {
+      const newShape = JSON.parse(cookiesData);
+      setCurrentUserLogin(newShape);
+    }
+  }, [Cookies.get('currentLoginedData'), currentUserLogin]);
+
+  const fetchProducts = async () => {
+    try {
+      const response = await axios.get(`${baseURL}/${loginType}/all-products?page=${currentPage}?t=${new Date().getTime()}`, {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      });
+      setNewdata(response?.data?.data?.products);
+      setTotalPages(response?.data?.data?.meta?.last_page);
+    } catch (error) {
+      if (error?.response?.data?.message === 'Server Error' || error?.response?.data?.message === 'Unauthorized') {
+        setUnAuth(true);
+      };
+      toast.error(error?.response?.data.message || 'Something Went Wrong!');
+    }
+  };
+  useEffect(() => {
+    fetchProducts();
+  }, [loginType, token]);
+
+  useEffect(() => {
+    setTimeout(() => {
+      setLoading(false);
+    }, 500);
+  }, [loading]);
+
+  const handleDeleteThisProduct = async (id) => {
+    try {
+      const response = await axios?.delete(`${baseURL}/${loginType}/delete-product/${id}`, {
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json',
+          Authorization: `Bearer ${token}`
+        }
+      })
+      toast.success(response?.data?.message);
+      await fetchProducts();
+    } catch (error) {
+      if (error?.response?.data?.message === 'Server Error' || error?.response?.data?.message === 'Unauthorized') {
+        setUnAuth(true);
+      };
+      toast.error(error?.response?.data?.message);
+    }
+  };
+
+  const handlePageChange = (newPage) => {
+    if (newPage >= 1 && newPage <= totalPages) {
+      setCurrentPage(newPage);
+    };
+  };
+
   return (
     <>
-    <div className='dashboard__handler d-flex'>
-      <MyNewSidebarDash />
-      <div className='main__content container'>
-        <MainContentHeader />
-        <div className='myProducts__handler content__view__handler'>
-          <ContentViewHeader title={'E-Commerce Products'} />
-          <div className='addNewItem__btn text-lg-end'>
-            <button>
-              <NavLink to='/catalog/addNewItem' className='nav-link'>
-                Add New Item
-              </NavLink>
-            </button>
-          </div>
-          <div className="productTable__content">
-                <Table responsive>
-                    <thead>
-                        <tr className='table__default__header'>
-                            <th>
-                              <input type="checkbox" />
-                              product
-                            </th>
-                            <th className='text-center'>Created in</th>
-                            <th className='text-center'>Status</th>
-                            <th className='text-center'>Amount</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {productsData.map((row, index) => (
-                            <tr className='' key={index}>
-                                <td className='product__breif__detail d-flex '>
-                                    <input type="checkbox" />
+      {
+        loading ?
+          <MyLoader />
+          :
+          <div className='dashboard__handler d-flex'>
+            <MyNewSidebarDash />
+            <div className='main__content container'>
+              <MainContentHeader currentUserLogin={currentUserLogin} />
+              {
+                unAuth ?
+                  <UnAuthSec />
+                  :
+                  <div className='myProducts__handler content__view__handler'>
+                    <ContentViewHeader title={'E-Commerce Products'} />
+                    <AddNewItem link={'/profile/products/addNewItem'} />
+                    {
+                      newData?.length !== 0 ?
+                        <div className="productTable__content">
+                          <Table responsive>
+                            <thead>
+                              <tr className='table__default__header'>
+                                <th>
+                                  product
+                                </th>
+                                <th className='text-center'>Category</th>
+                                <th className='text-center'>Status</th>
+                                <th className='text-center'>Price</th>
+                                <th className='text-center'>Edit</th>
+                                <th className='text-center'>Show</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              {newData?.map((row, index) => (
+                                <tr className='' key={index}>
+                                  <td className='product__breif__detail d-flex '>
+                                    <i className="bi bi-trash-fill" onClick={() => handleDeleteThisProduct(row?.id)}></i>
                                     <div className="product__img">
-                                      <img src={row.prodImage} alt="product" />
+                                      <img src={row?.productImages[0]?.image} alt="product" />
                                     </div>
                                     <div className="product__info">
-                                        <h2>
-                                          {row.title}
-                                        </h2>
-                                        <p>
-                                          {row.disc}
-                                        </p>
+                                      <h2>
+                                        {row?.title}
+                                      </h2>
+                                      <p title={row?.description}>
+                                        {row?.description?.slice(0,40)}{row?.description.split('').length > 40 && '...'}
+                                      </p>
                                     </div>
-                                </td>
-                                <td>
-                                  <div className="product__created">
-                                    {row.createdIn}
-                                  </div>
-                                </td>
-                                <td>
-                                    <div className={`product__statue ${row.style}`}>
-                                      {row.status}
+                                  </td>
+                                  <td>
+                                    <div className="product__created">
+                                      {row?.category}
                                     </div>
-                                </td>
-                                <td>
-                                  {row.amount}
-                                </td>
-                            </tr>
-                        ))}
-                    </tbody>
-                </Table>
+                                  </td>
+                                  <td>
+                                    <div className={`product__statue ${row?.status}`}>
+                                      {row?.status}
+                                    </div>
+                                  </td>
+                                  <td>
+                                    ${row?.price}
+                                  </td>
+                                  <td>
+                                    <button className='btn__E tableEditBtn nav-link' onClick={() => navigate(`/profile/products/edit-item/${row?.id}`)}>
+                                      <i className="bi bi-pencil-square"></i>
+                                    </button>
+                                  </td>
+                                  <td>
+                                    <NavLink className={'nav-link'} to={`/profile/products/show-one/${row?.id}`}>
+                                      <i className="bi bi-eye-fill showProd"></i>
+                                    </NavLink>
+                                  </td>
+                                </tr>
+                              ))}
+                            </tbody>
+                          </Table>
+                          {
+                            totalPages > 1 &&
+                            <div className="d-flex justify-content-center align-items-center mt-4">
+                              <button
+                                type="button"
+                                className="paginationBtn me-2"
+                                disabled={currentPage === 1}
+                                onClick={() => handlePageChange(currentPage - 1)}
+                              >
+                                <i class="bi bi-caret-left-fill"></i>
+                              </button>
+                              <span className='currentPagePagination'>{currentPage}</span>
+                              <button
+                                type="button"
+                                className="paginationBtn ms-2"
+                                disabled={currentPage === totalPages}
+                                onClick={() => handlePageChange(currentPage + 1)}
+                              >
+                                <i class="bi bi-caret-right-fill"></i>
+                              </button>
+                            </div>
+                          }
+                        </div>
+                        :
+                        <div className='row'>
+                          <div className="col-12 text-danger fs-5">
+                            No Product Items Yet
+                          </div>
+                        </div>
+                    }
+                  </div>
+              }
+            </div>
           </div>
-        </div>
-      </div>
-    </div>
+      }
     </>
-
-  )
-}
+  );
+};

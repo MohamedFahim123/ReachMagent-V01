@@ -18,59 +18,59 @@ export default function AllCategorySec() {
         {
             img: furnitre,
             title: 'furnitre',
-            link: '/profile'
+            link: '/all-category/:subCategID'
         },
         {
             img: kitchen,
             title: 'kitchen',
-            link: '/profile'
+            link: '/all-category/:subCategID'
         },
         {
             img: sport,
             title: 'sports',
-            link: '/profile'
+            link: '/all-category/:subCategID'
         },
         {
             img: lighting,
             title: 'lighting',
-            link: '/profile'
+            link: '/all-category/:subCategID'
         },
         {
             img: decor,
             title: 'decoration',
-            link: '/profile'
+            link: '/all-category/:subCategID'
         },
         {
             img: kids,
             title: 'kids',
-            link: '/profile'
+            link: '/all-category/:subCategID'
         },
         {
             img: makeUp,
             title: 'make-up',
-            link: '/profile'
+            link: '/all-category/:subCategID'
         },
         {
             img: health,
             title: 'health',
-            link: '/profile'
+            link: '/all-category/:subCategID'
         },
         {
             img: pets,
             title: 'pets',
-            link: '/profile'
+            link: '/all-category/:subCategID'
         },
         {
             img: other,
             title: 'other',
-            link: '/profile'
+            link: '/all-category/:subCategID'
         },
-    ]
+    ];
     return (
-        <div className='allCategorySec__handler'>
+        <div className='allCategorySec__handler mb-5'>
             <div className="container">
                 <div className="allCategory__header text-center">
-                    <HeaderSec title={'All Categories'}
+                    <HeaderSec title={'Browse By Industry'}
                     />
                 </div>
                 <div className="allCategory__items mt-5">

@@ -14,6 +14,20 @@
     margin-top: -40px;
     /* margin-left: 30px; */
 }
+.card__content .company__profile img{
+    border-radius: 50%;
+    width: 100%;
+    height: 100%;
+
+}
+.card__cover img{
+    /* // 356 × 58 px */
+height: 58px;
+/* border-radius: 9px; */
+border-top-left-radius: 9px;
+border-top-right-radius: 9px;
+
+}
 .card__content .company__name h2{
     font-size: 14px;
     font-weight: 600;
@@ -21,6 +35,9 @@
     color: var(--primary-black);
     text-transform: capitalize;
     margin-top: 10px;
+}
+.card__content .company__name h2:hover{
+    color: var(--main-blue-color);
 }
 .card__content .company__user h5{
     font-size: 10px;
@@ -85,4 +102,12 @@
     .companyCard__item{
         margin-bottom: 30px;
     }
+}
+.unFollowCompanyBtn {
+    border-color: #ff2020 !important;
+    color: #ff2020 !important;
+}
+.unFollowCompanyBtn:hover {
+    color: var(--primary-white) !important;
+    background-color: #ff2020 !important;
 }

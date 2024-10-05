@@ -29,7 +29,21 @@
     -ms-border-radius: 24px;
     -o-border-radius: 24px;
 }
-
+.singleCompany__quote{
+    background-image: url('../../assets/heroSec/singleCompanyQuote.png');
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: cover;
+    position: relative;
+    padding: 80px 0;
+    text-align: center;
+    color: var(--primary-white);
+    border-radius: 24px;
+    -webkit-border-radius: 24px;
+    -moz-border-radius: 24px;
+    -ms-border-radius: 24px;
+    -o-border-radius: 24px;
+}
 .heroSec__container h1,
 .shopHeroSec__container h1 {
     font-weight: 600;
@@ -92,6 +106,7 @@
     position: relative;
     flex-grow: 2;
     padding: 5px 0;
+    width: 50%;
 }
 
 .shopHeroSec__container .input__search__part {
@@ -105,7 +120,14 @@
     padding-right: 4px;
     border-right: 1px solid rgba(229, 229, 229, 1);
 }
-
+.select__category__part{
+width: 25%;
+}
+.select__area__part{
+    width: 25%;
+    border-right: 0;
+    border-left: 1px solid rgba(229, 229, 229, 1);
+}
 .shopHeroSec__container .select__category__part {
     font-size: 12px;
 }
@@ -165,6 +187,8 @@
     .form__part input,
     .form__part button {
         padding: 10px 0;
+        font-size: 12px;
+
     }
 
     .input__search__part i {
@@ -176,13 +200,21 @@
     .heroSec__container h1 {
         font-size: 16px;
     }
+.form__part select,
+.form__part input
+{
+    border: 1px solid #dee2e6;
+}
+    .form__part select,
+    .form__part input,
+    .form__part button {
+        padding: 10px;
+        font-size: 12px;
+        margin-bottom: 8px;
+    }
 
     .heroSec__container p {
         font-size: 12px;
-    }
-
-    .none__on__small__screen {
-        display: none;
     }
 
     .display__on__small__screen {
@@ -191,7 +223,28 @@
     }
 
     .hero__form__bar {
-        width: 95%;
+        width: 70%;
         text-align: center;
+        display: block;
+        padding: 10px;
+    }
+    .form__part select, .form__part input, .form__part button {
+        /* border: 1px solid #dee2e6; */
+    }
+    .select__category__part,
+    .input__search__part,
+    .select__area__part
+    {
+        width: 100%;
+    }
+    .quick__search__btn__part{
+        justify-content: end;
+    }
+    .quick__search__btn__part button{
+        margin-top: 20px;
+        margin-bottom: 0;
+    }
+    .select__category__part, .select__area__part{
+        border-right: 0;
     }
 }

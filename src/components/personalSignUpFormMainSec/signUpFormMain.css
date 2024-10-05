@@ -1,11 +1,24 @@
 .signUpForm__mainContent {
     background-color:  #ffffff;
-    border-radius: 24px;
-    -webkit-border-radius: 24px;
-    -moz-border-radius: 24px;
-    -ms-border-radius: 24px;
-    -o-border-radius: 24px;
+    border-radius: 0 24px 24px 24px;
+    -webkit-border-radius: 0 24px 24px 24px;
+    -moz-border-radius: 0 24px 24px 24px;
+    -ms-border-radius: 0 24px 24px 24px;
+    -o-border-radius: 0 24px 24px 24px;
     padding: 30px;
+}
+@media (max-width: 600px) {
+    .signUpForm__mainContent {
+        border-radius: 0 0 24px 24px;
+        -webkit-border-radius: 0 0 24px 24px;
+        -moz-border-radius: 0 0 24px 24px;
+        -ms-border-radius: 0 0 24px 24px;
+        -o-border-radius: 0 0 24px 24px;
+}
+}
+.user__management__main__info .signUpForm__mainSec{
+    transform: translate(0);
+    padding: 0 !important;
 }
 .signUpForm__head {
     font-size: 50px;
@@ -32,11 +45,17 @@
     -moz-border-radius: 8px;
     -ms-border-radius: 8px;
     -o-border-radius: 8px;
-    min-height: 42px;
+    min-height: 37.33px;
+
 }
 .signUpInput::placeholder {
     color: #809DAD;
     font-size: 14px;
+}
+.newUploadBtn{
+    background-color: #F1F4F8;
+    box-shadow: 0 4px 4px 0 #0000001A !important;
+    border: 0.5px solid #809DAD80;
 }
 .phoneCode {
     font-size: 12px !important;
@@ -46,46 +65,8 @@
     font-size: 22px;
     margin-bottom: 5px;
 }
-.leftCountryFlag {
-    position: absolute;
-    left: 10px;
-    top: 52%;
-    transform: translateY(-50%);
-    width: 40px;
-    height: 25px;
-    -webkit-transform: translateY(-50%);
-    -moz-transform: translateY(-50%);
-    -ms-transform: translateY(-50%);
-    -o-transform: translateY(-50%);
-}
-select.signUpCountry {
-    padding-inline-start: 65px;
-}
 .requiredStar {
     color: #D3121C80;
-}
-.signUpAddressBtn span {
-    cursor: pointer;
-    border-radius: 20px;
-    -webkit-border-radius: 20px;
-    -moz-border-radius: 20px;
-    -ms-border-radius: 20px;
-    -o-border-radius: 20px;
-    padding: 5px 20px;
-    background-color: #ffffff;
-    border: 1px solid #011F5B;
-    color: #011F5B;
-    transition: all 0.3s ease-in-out;
-    -webkit-transition: all 0.3s ease-in-out;
-    -moz-transition: all 0.3s ease-in-out;
-    -ms-transition: all 0.3s ease-in-out;
-    -o-transition: all 0.3s ease-in-out;
-    font-size: 14px;
-    margin-block: 20px 30px;
-}
-.signUpAddressBtn span:hover {
-    color: #ffffff;
-    background-color: #011F5B;
 }
 .signUp__submitBtn input {
     border-radius: 50px;
@@ -153,9 +134,7 @@ select.signUpCountry {
     color: #00000080;
     font-size: 12px;
 }
-.signUpInput[type="file"] {
-    display: none;
-}
+
 .singUp__upLoadBtn {
     background-color: #08AAE8;
     border-radius: 8px;
@@ -192,7 +171,7 @@ select.signUpCountry {
 .signUpCostom-checkBox .checkmark {
     width: 20px;
     height: 20px;
-    background-color: #D9D9D996;
+    background-color: #bdbcbc96;
     border-radius: 4px;
     position: relative;
     margin-right: 10px;
@@ -296,4 +275,109 @@ select.signUpCountry {
     .signUpForm__mainSec label {
         font-size: 16px;
     }
+}
+.chosen__choice {
+    font-size: 12px;
+    background-color: #08AAE8;
+    border-radius: 10px;
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+    -ms-border-radius: 10px;
+    -o-border-radius: 10px;
+    padding: 2px 5px;
+    display: inline-block;
+    margin: 5px 3px 0;
+    color: #ffffff;
+    transition: all 0.3s ease-in-out;
+    -webkit-transition: all 0.3s ease-in-out;
+    -moz-transition: all 0.3s ease-in-out;
+    -ms-transition: all 0.3s ease-in-out;
+    -o-transition: all 0.3s ease-in-out;
+}
+.chosen__choice-delete {
+    cursor: pointer;
+    font-size: 14px;
+    color: #ffffff;
+    margin: 0 0 0 3px;
+    transition: all 0.3s ease-in-out;
+    -webkit-transition: all 0.3s ease-in-out;
+    -moz-transition: all 0.3s ease-in-out;
+    -ms-transition: all 0.3s ease-in-out;
+    -o-transition: all 0.3s ease-in-out;
+}
+.chosen__choice:hover .chosen__choice-delete {
+    color: #ff2020;
+}
+.input-readOnly {
+    cursor: default;
+    box-shadow: 0 4px 4px 0 #0000001A !important;
+    border: 0.5px solid #809DAD80 !important;
+    margin-bottom: 20px;
+}
+.mapLabel {
+    margin-top: 5px;
+}
+.input-readOnly:focus ,
+.input-readOnly:focus-visible ,
+.input-readOnly:hover {
+    box-shadow: 0 4px 4px 0 #0000001A !important;
+    border: 0.5px solid #809DAD80 !important;
+    outline: none;
+}
+.leaflet-touch .leaflet-control-attribution, .leaflet-touch .leaflet-control-layers, .leaflet-touch .leaflet-bar{
+    display: none;
+}
+
+.nextStep__btn {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
+    border: 1px solid var(--main-blue-color);
+    outline: none;
+    background-color: var(--main-blue-color);
+    color: var(--primary-white);
+    transition: all 0.3s ease-in-out;
+    -webkit-transition: all 0.3s ease-in-out;
+    -moz-transition: all 0.3s ease-in-out;
+    -ms-transition: all 0.3s ease-in-out;
+    -o-transition: all 0.3s ease-in-out;
+    border-radius: 50px;
+    -webkit-border-radius: 50px;
+    -moz-border-radius: 50px;
+    -ms-border-radius: 50px;
+    -o-border-radius: 50px;
+    padding: 20px 40px;
+}
+.nextStep__btn:hover {
+    background-color: var(--primary-white);
+    color: var(--main-blue-color);
+}
+.nextStep__btn i {
+    margin-top: 3px;
+}
+.prevStep__btn {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
+    border: 1px solid var(--sale-color);
+    outline: none;
+    background-color: var(--primary-white);
+    color: var(--sale-color);
+    transition: all 0.3s ease-in-out;
+    -webkit-transition: all 0.3s ease-in-out;
+    -moz-transition: all 0.3s ease-in-out;
+    -ms-transition: all 0.3s ease-in-out;
+    -o-transition: all 0.3s ease-in-out;
+    border-radius: 50px;
+    -webkit-border-radius: 50px;
+    -moz-border-radius: 50px;
+    -ms-border-radius: 50px;
+    -o-border-radius: 50px;
+    padding: 20px 40px;
+}
+.prevStep__btn:hover {
+    background-color: var(--sale-color);
+    color: var(--primary-white);
 }

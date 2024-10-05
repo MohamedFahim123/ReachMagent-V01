@@ -1,75 +1,78 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import './home.css';
 import MyMainHeroSec from '../../components/myMainHeroSecc/MyMainHeroSec';
 import AboutReachSec from '../../components/aboutReachSecc/AboutReachSec';
 import AllCategorySec from '../../components/allCategorySecc/AllCategorySec';
 import FranchiseSec from '../../components/franchiseSecc/FranchiseSec';
-import ReadyToBuySec from '../../components/readyToBuySecc/ReadyToBuySec';
 import TrendingCompanySec from '../../components/trendingCompanySecc/TrendingCompanySec';
 import GrowBuisnessSec from '../../components/growBuisnessSecc/GrowBuisnessSec';
 import LastMinuteDeals from '../../components/lastMinuteDealsSec/LastMinuteDeals';
 import SingleCompanyNewsSec from '../../components/singleCompanyNewsSec/SingleCompanyNewsSec';
 import HeaderOfSec from '../../components/myHeaderOfSec/HeaderOfSec';
 import DownloadApp from '../../components/downloadAppSec/DownloadApp';
+import ReadyToByProductsHome from '../../components/readyToByProductsHomeSec/ReadyToByProductsHome';
+import MyLoader from '../../components/myLoaderSec/MyLoader';
+import SearchInHome from '../../components/searchInHome/SearchInHome';
 
-export default function Home() {
+export default function Home({ companies, token, countries, fetchCartItems, wishlistItems }) {
+  const [loading, setLoading] = useState(true);
   const arrOfCateg = [
     {
-      name: 'All',
+      name: 'Companies',
       id: 1
     },
-    {
-      name: 'One',
-      id: 2
-    },
-    {
-      name: 'Two',
-      id: 3
-    },
-    {
-      name: "Three",
-      id: 4
-    }
-  ]
+  ];
+
+  useEffect(() => {
+    setTimeout(() => {
+      setLoading(false);
+    }, 500);
+  }, [loading]);
 
   return (
-    <div className='myHomeSec__handler'>
-      <MyMainHeroSec
-        heroSecContainerType='heroSec__container'
-        headText='We Make Things Better'
-        paraPartOne=' Save  thousands to millions of bucks by using single tool for different'
-        paraPartTwo='amazing and outstanding cool and great useful admin'
-        categoryArr={arrOfCateg}
-      />
-      <AboutReachSec />
-      <AllCategorySec />
-      <FranchiseSec
-        pageName='home'
-        headText='Franchise Opportunities'
-        paraText='Lorem ipsum dolor sit amet consectetur. Fermentum tortor tortor nisi laoreet cursus ultrices amet. Odio arcu ornare turpis '
-        btnOneText='Submit Your Brand'
-        btnTwoText='Explore Now'
-      />
-      <ReadyToBuySec />
-      <TrendingCompanySec />
-      <GrowBuisnessSec />
-      <LastMinuteDeals />
-      <div className='oneClickQuotation__handler'>
-        <FranchiseSec
-          pageName='discover'
-          headText='One-click Quotation'
-          paraText='Lorem ipsum dolor sit amet consectetur.'
-          btnOneText='Start Now'
-        />
-      </div>
-      <>
-        <HeaderOfSec
-          secHead='News'
-          secText='Lorem ipsum dolor sit amet consectetur. Lectus fermentum amet id luctus at libero.'
-        />
-        <SingleCompanyNewsSec />
-      </>
-      <DownloadApp />
-    </div>
+    <>
+      {
+        loading ?
+          <MyLoader />
+          :
+          <div className='myHomeSec__handler'>
+            <MyMainHeroSec
+              heroSecContainerType='heroSec__container'
+              headText='Search for your next opportunity'
+              paraPartOne='Unlock full potential by finding exactly what you need'
+              categoryArr={arrOfCateg}
+              countries={countries}
+            />
+            
+            {/* <AboutReachSec /> */}
+            <div className='mt-5'>
+              <TrendingCompanySec companies={companies} token={token} />
+            </div>
+            {
+              <div className='oneClickQuotation__handler'>
+                <FranchiseSec
+                  pageName='discover'
+                  headText='One-click Quotation'
+                  paraText='Submit your request with ReachMagnets one-click tool and receive multiple quotations from companies, allowing you to compare and choose the best offer'
+                  btnOneText='Start Now'
+                  btnOnelink='/one-click-quotation'
+                />
+              </div>
+            }
+            {/* <ReadyToByProductsHome fetchCartItems={fetchCartItems} wishlistItems={wishlistItems} token={token} secMAinTitle={`Ready-To-Buy Products`}/> */}
+            
+            <GrowBuisnessSec />
+            {/* <LastMinuteDeals setLoading={setLoading} token={token}/> */}
+            <div className='mt-3'>
+              <HeaderOfSec
+                secHead='Companies Insights'
+                secText='Stay informed with the latest updates, announcements, and specials from top companies'
+              />
+              <SingleCompanyNewsSec setLoading={setLoading} token={token} />
+            </div>
+            <DownloadApp />
+          </div>
+      }
+    </>
   )
 }

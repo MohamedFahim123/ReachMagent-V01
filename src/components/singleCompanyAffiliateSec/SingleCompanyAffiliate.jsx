@@ -5,7 +5,7 @@ import HeaderOfSec from '../myHeaderOfSec/HeaderOfSec';
 
 export default function SingleCompanyAffiliate() {
   return (
-    <div className='singleCompany__affiliate'>
+    <div className='singleCompany__affiliate mb-5'>
 
       <Container>
         <Row>

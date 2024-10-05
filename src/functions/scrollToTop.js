@@ -1,5 +1,5 @@
-export const scrollToTop = ()=>{
+export const scrollToTop = (num)=>{
     window.scrollTo({
-        top: 0,
+        top: num ? num : 0,
     });
 };

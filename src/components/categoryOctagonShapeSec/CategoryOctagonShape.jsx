@@ -8,17 +8,21 @@ export default function CategoryOctagonShape({ octagonIcon, iconName, iconLink }
     return (
         <div className='CategoryOctagonShape__handler'>
             <div className="octagonItem__handler">
-                <div className="octagon__shape" onClick={()=>{
-                    navigate(`${iconLink}`);
-                    scrollToTop();
+                <div className="octagon__shape"
+                    onClick={() => {
+                        navigate(`${iconLink}`);
+                        scrollToTop();
                     }}>
                     <img src={octagonIcon} alt="icon" />
                 </div>
-                <NavLink onClick={()=>scrollToTop()} to={iconLink} className='nav-link'>
+                <NavLink
+                    onClick={() => {
+                        scrollToTop();
+                    }} to={iconLink} className='nav-link'>
                     <span>{iconName}</span>
                 </NavLink>
             </div>
 
         </div>
-    );
-};
+    )
+}
